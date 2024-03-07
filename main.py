@@ -2,6 +2,7 @@ from typing import Optional
 from typing import Union
 from typing import List
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 
@@ -21,6 +22,22 @@ app = FastAPI()
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
+    
+origins = [
+    "http://localhost:5500",
+    "localhost:5500",
+    "http://127.0.0.1:5500",
+    "127.0.0.1:5500/"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 controller = Controller()
 
@@ -31,7 +48,10 @@ reader4 = Reader("Mer", "De")
 reader5 = Reader("Muc", "Du")
 reader6 = Reader('get','1234')
 
-writer1 = Writer("write", "it")
+writer1 = Writer("wrpak", "it")
+writer2 = Writer("warinww", 'me')
+writer3 = Writer("varinlu", "you")
+writer4 = Writer("monsac", "my")
 
 book1 = Book("Great Book", "Fiction", 100, "intro", "Content")
 book2 = Book("Thai Book", "Non-fiction", 200, "intro", "Content")
@@ -60,11 +80,12 @@ promotion1.add_book_list(book1)
 promotion1.add_book_list(book2)
 promotion2.add_book_list(book3)
 promotion2.add_book_list(book4)
+promotion2.add_book_list(book5)
 
 controller.upload_book(book1, writer1)
-controller.upload_book(book2, writer1)
-controller.upload_book(book3, writer1)
-controller.upload_book(book4, writer1)
+controller.upload_book(book2, writer2)
+controller.upload_book(book3, writer3)
+controller.upload_book(book4, writer4)
 controller.upload_book(book5, writer1)
 
 controller.add_reader(reader1)
@@ -75,6 +96,9 @@ controller.add_reader(reader5)
 controller.add_reader(reader6)
 
 controller.add_writer(writer1)
+controller.add_writer(writer2)
+controller.add_writer(writer3)
+controller.add_writer(writer4)
 
 controller.add_rating(2, 1)
 controller.add_rating(2, 3)

@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bailan</title>
-
     <link rel="stylesheet" href="index.css">
+    <title>Bailan</title>
 
 </head>
 <body>
     <header>
-        <h1>Bailan</h1>
-            <!--ช่องค้นหา-->
-            <div class="search-container">
-                <input id="search_by_name" type="text" placeholder="Search...">
-                <button onclick="search_by_name()">Search</button>
-            </div>
-            <!--ตระกร้า -->
+        <div class="header-content">
+            <h1>Bailan</h1>
+        </div>
+        <!--ช่องค้นหา-->
+        <div class="search-container">
+            <input id="search_by_name" type="text" placeholder="Search...">
+            <button onclick="search_by_name()">Search</button>
+        </div>
+        <!--ตระกร้า -->
             <div class="cart-container">
-                <a href="cart.html">Cart</a>
+                <a href="cart.html">
+                    <div class="cart-frame">
+                        Cart
+                    </div>   
+                </a>
             </div>
+        </div>
     </header>
 
     <nav>
@@ -34,9 +40,47 @@
     </nav>
 
     <section id="หน้าแรก">
-        <h2>หน้าแรก</h2>
-        <div id="content">
 
+        <div id="content">
+            <!-- show book from search -->
+        </div>
+
+        <h2>หน้าแรก</h2>
+        <div class="main-content">
+            <div class="books">
+                <div class="book">
+                    <a href="book_info.html">
+                        <img src="image/great book.jpg">
+                        <h3>Great Book</h3>
+                    </a>
+                    <p>wrpak</p>
+                    <p>100 coin</p>
+                </div>
+                <div class="book">
+                    <img src="image/thai book.jpg">
+                    <h3>Thai Book</h3>
+                    <p>warinww</p>
+                    <p>200 coin</p>
+                </div>
+                <div class="book">
+                    <img src="image/japan book.jpg">
+                    <h3>Japan Book</h3>
+                    <p>valrinlu</p>
+                    <p>300 coin</p>
+                </div>
+                <div class="book">
+                    <img src="image/code book.jpg">
+                    <h3>Code Book</h3>
+                    <p>monsac</p>
+                    <p>400 coin</p>
+                </div>
+                <div class="book">
+                    <img src="image/food book.jpg">
+                    <h3>Food Book</h3>
+                    <p>wrpak</p>
+                    <p>500 coin</p>
+                </div>
+            </div>
         </div>
     </section>
 

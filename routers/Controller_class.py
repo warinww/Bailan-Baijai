@@ -343,9 +343,10 @@ class Controller:
                         return "You already have "+str(book.name)
                     book.update_book_status()
                     book.num_of_reader = 1
-                    sum_price += (book.price_coin*0.8)
+                    new_book_price = book.price_coin*0.8
+                    sum_price += new_book_price
                     account.update_book_collection_list(book)
-                    book.writer.adding_coin = book.price_coin
+                    book.writer.adding_coin = new_book_price
                 else: return "Not found book"
                 
                 if account.coin >= sum_price:
