@@ -173,8 +173,14 @@ class Controller:
     def show_book_info(self, book_id):
         book = self.search_book_by_id(book_id)
         if book is not None:
-            # format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
-            return book
+            format = {
+                    "book_name" : book.name,
+                    "writer_name" : book.writer.account_name,
+                    "type_book" : book.book_type,
+                    "intro" : book.intro,
+                    "rating" : book.review.rating
+                }
+            return format
         return 'Not Found'
             
     def book_of_writer(self,writer): #คลังหนังสือที่ตัวเองแต่ง ID 

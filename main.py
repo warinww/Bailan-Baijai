@@ -58,6 +58,7 @@ book2 = Book("Thai Book", "Non-fiction", 200, "intro", "Content")
 book3 = Book("Japan Book", "Non-fiction", 300, "intro", "Content")
 book4 = Book("Code Book", "Non-fiction", 400, "intro", "Content")
 book5 = Book("Food Book", "Non-fiction", 500, "intro", "Content")
+book6 = Book("Animal Book", "Non-fiction", 600, "intro", "Content")
 
 promotion1 = Promotion("valentine", 10, 7)
 promotion2 = Promotion("new year", 15, 7)
@@ -81,12 +82,14 @@ promotion1.add_book_list(book2)
 promotion2.add_book_list(book3)
 promotion2.add_book_list(book4)
 promotion2.add_book_list(book5)
+promotion2.add_book_list(book6)
 
 controller.upload_book(book1, writer1)
 controller.upload_book(book2, writer2)
 controller.upload_book(book3, writer3)
 controller.upload_book(book4, writer4)
 controller.upload_book(book5, writer1)
+controller.upload_book(book6, writer2)
 
 controller.add_reader(reader1)
 controller.add_reader(reader2)
@@ -228,4 +231,3 @@ async def submit_complaint(user_id: int, message: str):
 @app.get("/view_complaints", tags = [ "Complain"])
 async def view_complaints():
     return {"Complain": controller.view_complaints()}
-

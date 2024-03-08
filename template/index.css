@@ -8,7 +8,7 @@ body {
 }
 
 h1, h2 {
-    
+    text-align: center;
 }
 
 h1 {
@@ -50,8 +50,9 @@ header {
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    align-items: center; 
-    flex-wrap: wrap; 
+    /* text-align: center; */
+    /* align-items: center;  */
+    /* flex-wrap: wrap;  */
 }
 
 header h1 {
@@ -200,3 +201,30 @@ footer {
     padding: 10px;
     text-align: center;
 } 
+
+
+.bookInfoContainer {
+    display: flex;
+    align-items: center;
+}
+
+#bookCover {
+    width: 300px;
+    height: auto;
+    border-radius: 10px; 
+    box-shadow: 0px 0px 5px rgba(0,0,0,2);
+    margin-top: 100px;
+    margin-left: 420px;
+}
+
+#bookInfo h1{
+    margin-top: 0px;
+    margin-left: 50px;
+    margin-bottom: 40px;
+}
+
+#bookInfo p{
+    margin-left: 50px;
+    margin-bottom: 10px;
+    flex: 1;
+}
