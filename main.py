@@ -103,6 +103,8 @@ controller.add_writer(writer2)
 controller.add_writer(writer3)
 controller.add_writer(writer4)
 
+controller.add_rating(1, 4)
+controller.add_rating(1, 5)
 controller.add_rating(2, 1)
 controller.add_rating(2, 3)
 

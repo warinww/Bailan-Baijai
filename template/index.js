@@ -40,12 +40,13 @@ function displayBookList(bookList) {
 function displayBookInfo(bookInfo) {
   const bookInfoDiv = document.getElementById('bookInfo');
   bookInfoDiv.innerHTML = `
-      <h1>${bookInfo.book_name}</h1>
-      <p>Writer: ${bookInfo.writer_name}</p>
-      <p>Type: ${bookInfo.type_book}</p>
-      <p>Introduction: ${bookInfo.intro}</p>
-      <p>Rating: ${bookInfo.rating}</p>
-  `;
+    <h1>${bookInfo.book_name}</h1>
+    <p>Writer: ${bookInfo.writer_name}</p>
+    <p>Type: ${bookInfo.type_book}</p>
+    <p>Introduction: ${bookInfo.intro}</p>
+    <p>Rating: ${bookInfo.rating}</p>
+`;
+
 
   const bookCover = document.getElementById('bookCover');
   bookCover.src = `image/${bookInfo.book_name}.jpg`;

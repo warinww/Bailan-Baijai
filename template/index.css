@@ -50,9 +50,6 @@ header {
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    /* text-align: center; */
-    /* align-items: center;  */
-    /* flex-wrap: wrap;  */
 }
 
 header h1 {
@@ -206,6 +203,7 @@ footer {
 .bookInfoContainer {
     display: flex;
     align-items: center;
+    
 }
 
 #bookCover {
@@ -219,12 +217,34 @@ footer {
 
 #bookInfo h1{
     margin-top: 0px;
-    margin-left: 50px;
+    margin-left: -55px;
     margin-bottom: 40px;
 }
 
 #bookInfo p{
     margin-left: 50px;
     margin-bottom: 10px;
+    margin-right: 150px;
     flex: 1;
+}
+
+#cartButton img{
+    width: 30px;
+    vertical-align: middle;
+}
+
+#cartButton {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 10px; 
+    border: 2px solid #9c27b0;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #eee;
+    text-decoration: none;
+}
+
+.cart-icon-frame {
+    margin-top: 300px;
+    margin-left: -270px;
 }
