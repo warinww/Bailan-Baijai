@@ -12,3 +12,7 @@
     background-color: #ff6347;
     color: #fff;
 }
+
+.checked {
+    color: orange;
+  }

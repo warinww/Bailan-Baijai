@@ -60,6 +60,11 @@
     <script>
         window.onload = function() {
             get_all_book();
+            const queryParams = new URLSearchParams(window.location.search);
+            const searchInput = queryParams.get('search');
+            if (searchInput) {
+                search_by_name_2(searchInput);
+            }
         };
     </script>
 

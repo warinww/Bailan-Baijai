@@ -385,7 +385,7 @@ class Controller:
                 return "Please rate this book in 0-5"
             else:
                 book.review.add_rating(rating)
-                return "Success"
+                return book.review.rating
         return "Not found book"
     
     def submit_comment(self, reader_id, book_id, message):

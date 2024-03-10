@@ -10,13 +10,17 @@ async function get_all_book() {
   }
 }
 
+function page_search_by_name() {
+  const input = document.getElementById("search_by_name").value;
+  window.location.href = `index.html?search=${input}`;
+}
+
 async function search_by_name(event) {
+  console.log("in search")
   event.preventDefault();
 
-  console.log("in search_by_name");
   const input = document.getElementById("search_by_name").value;
   const content = document.getElementById("content");
-  console.log(input);
 
   const response = await axios.get(
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
@@ -29,9 +33,19 @@ async function search_by_name(event) {
   displayBookList(book_list);
 }
 
+async function search_by_name_2(input) {
+  const content = document.getElementById("content");
+  const response = await axios.get(
+      `http://127.0.0.1:8000/search_book_by_name?name=${input}`
+  );
+  const book_list = response.data.book_list;
+  displayBookList(book_list);
+}
+
 document.getElementById("searchButton").addEventListener("click", search_by_name);
 
 function displayBookList(bookList) {
+
   const content = document.getElementById("content");
   content.innerHTML = '';
 
@@ -76,13 +90,9 @@ function displayBookList(bookList) {
     aPrice.title = 'Price';
     aPrice.textContent = 'Price';
 
-    // Set onclick event to the card title to navigate to book_info.html
-    h5.onclick = function() {
-      window.location.href = `book_info.html?id=${book.id}`;
-    };
-
-    a.appendChild(img);
-    divCardBody.appendChild(h5);
+    a.appendChild(img)
+    a.appendChild(h5);
+    // divCardBody.appendChild(h5);
     divCardBody.appendChild(pWriter);
     divCardBody.appendChild(pRating);
     divCardBody.appendChild(aPrice);
@@ -122,4 +132,36 @@ function displayBookInfo(bookInfo) {
   const bookCover = document.getElementById('bookCover');
   bookCover.src = `images/${bookInfo.book_name}.jpg`;
   bookCover.alt = bookInfo.book_name;
+}
+
+
+
+function toggleStar(star) {
+  star.classList.toggle("checked");
+}
+
+function submitFormAndAddStar() {
+  add_rating();
+  submitForm();
+}
+
+function submitForm() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const bookId = queryParams.get('id');
+  const link = `book_info.html?id=${bookId}`;
+  window.location.href = link;
+}
+
+async function add_rating() {
+  const stars = document.querySelectorAll(".fa-star.checked").length;
+  console.log(stars);
+  const queryParams = new URLSearchParams(window.location.search);
+  const Id = queryParams.get('id');
+
+  console.log("id", Id)
+  console.log("stars", stars)
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/rating?book_id=${Id}&rating=${stars}`
+  );
 }
