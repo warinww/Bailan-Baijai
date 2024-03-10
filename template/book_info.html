@@ -53,11 +53,14 @@
             <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="get_promotion_page()">promotion</button>
           </div>
         </div>
-      </div>
+    </div>
 
     
-    <img id="bookCover" src="" alt="Book Cover">
-    <div id="bookInfo" class="bookInfoDetails"></div>
+    <div class="bookInfoContainer">
+        <img id="bookCover" src="" alt="Book Cover">
+        <div id="bookInfo" class="bookInfoDetails"></div>
+        <button id="addToCartButton" class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+    </div>
    
 
     <form>
@@ -95,6 +98,7 @@
 
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="ิbook_info.js"></script>
     <script src="index.js"></script>
 </body>
 

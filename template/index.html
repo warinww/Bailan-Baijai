@@ -78,6 +78,18 @@
             if (searchInput) {
                 search_by_name_2(searchInput);
             }
+    
+            const queryParamsBookInfo = new URLSearchParams(window.location.search);
+            const bookId = queryParamsBookInfo.get('id');
+            if (bookId) {
+                show_comment();
+            }
+    
+            const queryParamsPromotion = new URLSearchParams(window.location.search);
+            const isPromotion = queryParamsPromotion.get('promotion');
+            if (isPromotion === 'true') {
+                get_promotion();
+            }
         };
     </script>
 

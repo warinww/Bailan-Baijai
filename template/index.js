@@ -198,8 +198,7 @@ async function book_in_promotion(promotion) {
 }
 
 async function get_promotion_page() {
-  window.location.href = 'index.html';
-  await book_in_promotion();
+  window.location.href = 'index.html?promotion=true';
 }
 
 async function add_comment(event) {
@@ -303,3 +302,25 @@ function displayComplain(complainList) {
     complainContainer.appendChild(complainDiv);
   });
 }
+
+loginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const username = document.getElementById('loginUsername').value;
+  const password = document.getElementById('loginPassword').value;
+  try {
+    const response = await axios.post('http://localhost:8000/login', {
+      account_name: username,
+      password: password
+    });
+    alert(response.data.message);
+
+    // Change "Login/Register" button to account_name
+    const loginRegisterButton = document.getElementById('loginRegisterButton');
+    loginRegisterButton.textContent = username;
+
+    // Redirect to index.html after successful login
+    window.location.href = 'index.html';
+  } catch (error) {
+    alert('Failed to login. Invalid username or password.');
+  }
+});

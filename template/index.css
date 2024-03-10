@@ -16,3 +16,26 @@
 .checked {
     color: orange;
   }
+
+.bookInfoContainer {
+    display: flex;
+    flex-direction: row;
+    /* เปลี่ยนเป็นแนวตั้ง */
+    align-items: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางตามแนวนอน */
+    justify-content: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางตามแนวตั้ง */
+    padding: 20px;
+    height: 100vh;
+    /* ทำให้เนื้อหาอยู่ตรงกลางของหน้าจอทั้งความสูง */
+}
+
+.bookInfoDetails {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#bookCover {
+    width: 320px;
+    /* กำหนดขนาดสูงสุดของรูปภาพ */
+}
