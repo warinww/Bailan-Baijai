@@ -28,7 +28,6 @@
                 </div>
 
                 <a href="index.html" class="btn btn-outline-light me-1">Home Page</a>
-                <a href="reader_book_collection.html" class="btn btn-outline-light me-2">Book's Collection</a>
 
                 <h1 class="h1-center">Bailan</h1>
 
@@ -44,35 +43,14 @@
         </div>
     </nav>
 
-    <h1 class="text-center py-4">All E-Book</h1>
-
-    <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-1">
-            <button class="btn btn-danger d-block mx-auto mx-2 promotion-btn" onclick="get_promotion()">promotion</button>
-          </div>
-        </div>
-      </div>
-
+    <h1 class="text-center py-4">Writer Collection</h1>
     
     <div id="content"></div>
 
-    <div class="text-center py-4">
-        <h2 class="text-center mt-4">Complain</h2>
-        <div class="d-flex align-items-center justify-content-center mt-4">
-            <form class="d-flex" role="complain">
-                <input id="complain" class="form-control me-2" type="text" placeholder="Complain" style="width: 400px; border-top-color: #343a40; border-right-color: #343a40; border-bottom-color: #343a40; border-left-color: #343a40;">
-                <button onclick="add_complain(event)" class="btn btn-outline-dark me-2" type="button">Submit</button>
-                <button onclick="show_complain()" class="btn btn-outline-dark me-2" type="button">view complain</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="mt-4" id="complainList"></div>
-
     <script>
         window.onload = function() {
-            get_all_book();
+            reader_book_collection()
+            
             const queryParams = new URLSearchParams(window.location.search);
             const searchInput = queryParams.get('search');
             if (searchInput) {
@@ -83,12 +61,6 @@
             const bookId = queryParamsBookInfo.get('id');
             if (bookId) {
                 show_comment();
-            }
-    
-            const queryParamsPromotion = new URLSearchParams(window.location.search);
-            const isPromotion = queryParamsPromotion.get('promotion');
-            if (isPromotion === 'true') {
-                get_promotion();
             }
         };
     </script>

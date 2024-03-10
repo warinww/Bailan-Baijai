@@ -98,6 +98,9 @@ controller.add_reader(reader5)
 controller.add_reader(reader6)
 
 controller.add_writer(writer1)
+controller.add_writer(writer2)
+controller.add_writer(writer3)
+controller.add_writer(writer4)
 
 controller.add_rating(1, 4)
 controller.add_rating(1, 5)
@@ -144,11 +147,9 @@ async def upload_book(writer_id : int , book_detail : Uploadbook) -> dict:
 async def Show_Book_Collection_of_Reader(Reader_id:int) -> dict:
     return {"Book's list" : controller.show_book_collection_of_reader(Reader_id)}
 
-@app.get("/show_book_collection_of_writer", tags=["Book"]) #ดูคลังหนังสือที่ตัวเองแต่ง
-async def show_book_when_upload_book(writer_id: int) -> dict:
-    writer = controller.search_writer_by_id(writer_id)
-    if writer is not None:
-        return {"Book's list" : controller.book_of_writer(writer)}
+@app.get("/show_book_collection_of_writer", tags=["Book"])
+async def show_book_when_upload_book(writer_name: str) -> dict:
+    return {"Book's list" : controller.show_book_collection_of_writer(writer_name)}
 
 # Search
 @app.get("/search_book_by_name", tags = ["Search"])
@@ -247,7 +248,7 @@ from fastapi import HTTPException
 # Register/Login
 @app.post("/register", tags = [ "Register/Login"])
 async def register(user: User):
-    message = controller.register_reader(user.account_name, user.password)
+    message = controller.register(user.account_name, user.password)
     if "successfully" in message:
         return {"message": message}
     else:

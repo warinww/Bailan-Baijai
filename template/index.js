@@ -86,6 +86,11 @@ function displayBookList(bookList) {
     const pWriter = document.createElement('p');
     pWriter.classList.add('card-text');
     pWriter.textContent = `Writer: ${book.writer_name}`;
+    pWriter.style.cursor = 'pointer';
+    pWriter.addEventListener('click', function() {
+      const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
+      window.location.href = writerBookCollectionUrl;
+    });
 
     const pRating = document.createElement('p');
     pRating.classList.add('card-text');
@@ -97,7 +102,11 @@ function displayBookList(bookList) {
     aPrice.dataset.bsToggle = 'tooltip';
     aPrice.dataset.bsPlacement = 'right';
     aPrice.title = 'Price';
+    aPrice.style.backgroundColor = '#ff6347';
+    aPrice.style.borderColor = '#ff6347';
     aPrice.textContent = `Price: ${book.price} coin`;
+
+
 
     a.appendChild(img)
     divCardBody.appendChild(h5);
@@ -341,3 +350,35 @@ loginForm.addEventListener('submit', async (event) => {
     alert('Failed to login. Invalid username or password.');
   }
 });
+
+async function writer_book_collection() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const writer = queryParams.get('writer');
+
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = `${writer} Collection`;
+
+  const content = document.getElementById("content");
+  const response = await axios.get(
+      `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
+  );
+
+  const book_list = response.data["Book's list"];
+  displayBookList(book_list);
+}
+
+async function reader_book_collection() {
+
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = `My Collection`;
+
+  const id = 1; //รอเชื่อม
+  const content = document.getElementById("content");
+  const response = await axios.get(
+      `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${id}`
+  );
+
+  const book_list = response.data["Book's list"];
+  displayBookList(book_list);
+}
+

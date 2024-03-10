@@ -4,8 +4,6 @@ from routers.Complain_class import Complain
 from routers.Review_class import Review
 from routers.Account_class import Reader, Writer
 
-
-
 class Controller:
     def __init__(self):
         self.__reader_list = []
@@ -203,20 +201,38 @@ class Controller:
             return format
         return 'Not Found'
             
-    def book_of_writer(self,writer): #คลังหนังสือที่ตัวเองแต่ง ID 
-        new_book_list = []
-        for book in writer.book_collection_list:
-            format = [f'Book Name: {book.name}' , f'Writer Name: {book.writer.account_name}' , f'Type of Book: {book.book_type}' , f'Price Coin: {book.price_coin}' , f'Intro: {book.intro}' , f'Content: {book.content}']
-            new_book_list.append(format)
-
-        return new_book_list
+    def show_book_collection_of_writer(self,writer_name):
+        book_collection = []
+        for account in self.__writer_list:
+            if account.account_name == writer_name:
+                for book in account.book_collection_list:
+                    format = {
+                        "id": book.id,
+                        "book_name" : book.name,
+                        "writer_name" : book.writer.account_name,
+                        "type_book" : book.book_type,
+                        "intro" : book.intro,
+                        "rating" : book.review.rating,
+                        "price" : book.price_coin
+                    }
+                    book_collection.append(format)
+                return book_collection
+        return "Not found account"
     
     def show_book_collection_of_reader(self, reader_id):
         book_collection = []
         account = self.search_reader_by_id(reader_id)
         if account is not None:
-            for list in account.book_collection_list:
-                format = [f'Book Name: {list.name}' , f'Writer Name: {list.writer.account_name}' , f'Type of Book: {list.book_type}' , f'Price Coin: {list.price_coin}' , f'Intro: {list.intro}' , f'Content: {list.content}']        
+            for book in account.book_collection_list:
+                format = {
+                    "id": book.id,
+                    "book_name" : book.name,
+                    "writer_name" : book.writer.account_name,
+                    "type_book" : book.book_type,
+                    "intro" : book.intro,
+                    "rating" : book.review.rating,
+                    "price" : book.price_coin
+                }
                 book_collection.append(format)
         if book_collection:
             return book_collection
@@ -441,7 +457,7 @@ class Controller:
         return "Success"
 
     def view_complaints(self):
-        if not self.__complain_list:
+        if not self.complain_list:
             return "No complaints available."
         complaints_info = []
         for account, message, datetime in self.__complain_list:
