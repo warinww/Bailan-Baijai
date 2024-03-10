@@ -1,7 +1,7 @@
 from typing import Optional
 from typing import Union
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
@@ -16,20 +16,16 @@ from routers.Complain_class import Complain
 from routers.PaymentMethod_class import PaymentMethod
 
 # models
-from models.BaseModel_class import coinInput, BookIdList, Uploadbook
+from models.BaseModel_class import User, coinInput, BookIdList, Uploadbook
 
 app = FastAPI()
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
-    
 origins = [
     "http://localhost:5500",
     "localhost:5500",
     "http://127.0.0.1:5500",
     "127.0.0.1:5500/"
 ]
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -38,6 +34,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
 
 controller = Controller()
 
@@ -99,14 +98,19 @@ controller.add_reader(reader5)
 controller.add_reader(reader6)
 
 controller.add_writer(writer1)
-controller.add_writer(writer2)
-controller.add_writer(writer3)
-controller.add_writer(writer4)
 
 controller.add_rating(1, 4)
 controller.add_rating(1, 5)
-controller.add_rating(2, 1)
+controller.add_rating(2, 5)
 controller.add_rating(2, 3)
+controller.add_rating(3, 2)
+controller.add_rating(3, 4)
+controller.add_rating(4, 5)
+controller.add_rating(4, 3)
+controller.add_rating(5, 2)
+controller.add_rating(5, 4)
+controller.add_rating(6, 5)
+controller.add_rating(6, 3)
 
 controller.add_promotion_list(promotion1)
 controller.add_promotion_list(promotion2)
@@ -115,10 +119,15 @@ controller.add_promotion_list(promotion2)
 reader1.update_book_collection_list(book1)
 
 writer1.adding_coin = 10
-reader1.adding_coin = 2000
+reader1.adding_coin = 2000  
 # ------------------------------------------
 
+
 #  Book
+@app.get("/get_all_book", tags=['Book'])
+async def get_all_book():
+    return {"book_list": controller.get_all_book()}
+
 @app.get("/book_info", tags=['Book'])
 async def get_book_info(id:int) -> dict:
     return {"Book's info": controller.show_book_info(id)}
@@ -224,7 +233,6 @@ async def view_comment(Book_id : int) -> dict:
 async def show_promotion() -> dict:
     return {"Promotion": controller.show_promotion()}
 
-
 #Complain
 @app.post("/submit_complaint", tags = ["Complain"])
 async def submit_complaint(user_id: int, message: str):
@@ -233,3 +241,33 @@ async def submit_complaint(user_id: int, message: str):
 @app.get("/view_complaints", tags = [ "Complain"])
 async def view_complaints():
     return {"Complain": controller.view_complaints()}
+
+from fastapi import HTTPException
+
+# Register/Login
+@app.post("/register", tags = [ "Register/Login"])
+async def register(user: User):
+    message = controller.register_reader(user.account_name, user.password)
+    if "successfully" in message:
+        return {"message": message}
+    else:
+        raise HTTPException(status_code=400, detail=message)
+
+@app.post("/login", tags = [ "Register/Login"])
+async def login(user: User):
+    account = controller.login_reader(user.account_name, user.password)
+    if account:
+        return {"message": "Login successful", "account_id": account.id_account}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+@app.get("/view_reader_list", tags = [ "Register/Login"])
+async def view_reader_list():
+    reader_list = []
+    for reader in controller.reader_list:
+        reader_list.append({
+            "id": reader.id_account,
+            "username": reader.account_name,
+            "password": reader.password
+        })
+    return {"readers": reader_list}

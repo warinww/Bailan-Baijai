@@ -2,6 +2,9 @@ import datetime
 from routers.BookStatus_class import BookStatus
 from routers.Complain_class import Complain
 from routers.Review_class import Review
+from routers.Account_class import Reader, Writer
+
+
 
 class Controller:
     def __init__(self):
@@ -49,14 +52,7 @@ class Controller:
         writer.id_account = self.__num_of_account
         self.__writer_list.append(writer)
         
-    def login(self, username, password):
-        for account in self.__reader_list:
-            if account.username == username and account.password == password:
-                return account
-        for account in self.writer_list:
-            if account.username == username and account.password == password:
-                return account
-        return None
+    
 
     def add_complain(self, complain):
         self.__complain_list.append(complain)
@@ -78,6 +74,22 @@ class Controller:
                 self.__promotion_list.remove(prom)
 
 # Book
+    def get_all_book(self):
+        list = []
+        for book in self.__book_list:
+            format = {
+                "id": book.id,
+                "book_name" : book.name,
+                "writer_name" : book.writer.account_name,
+                "type_book" : book.book_type,
+                "rating" : book.review.rating
+            }
+            list.append(format)
+        if list:
+            return list
+        else:
+            return None
+
     def search_reader_by_id(self, reader_id):
         for reader in self.__reader_list:
             if reader.id_account == reader_id:
@@ -101,9 +113,11 @@ class Controller:
         for book in self.__book_list:
             if book.name == bookname or bookname in book.name:
                 format = {
+                    "id": book.id,
                     "book_name" : book.name,
-                    "writer_name " : book.writer.account_name,
-                    "type_book" : book.book_type
+                    "writer_name" : book.writer.account_name,
+                    "type_book" : book.book_type,
+                    "rating" : book.review.rating
                 }
                 new_book_list.append(format)
         if new_book_list:
@@ -282,7 +296,7 @@ class Controller:
     def show_payment_method(self):
         chanels = []
         for c in self.__payment_method_list:
-             chanels.append({c.chanel_id : c.chanel_name})
+            chanels.append({c.chanel_id : c.chanel_name})
         return chanels
 
     def top_up(self, id_account, money, chanel):
@@ -421,3 +435,25 @@ class Controller:
                 complaints_info[complain.user_id] = []
             complaints_info[complain.user_id].append({"message": complain.message, "datetime": complain.date_time})
         return complaints_info
+
+    def login_reader(self, account_name, password):
+        for account in self.__reader_list:
+            if account.account_name == account_name and account.password == password:
+                return account
+        for account in self.writer_list:
+            if account.account_name == account_name and account.password == password:
+                return account
+        return None
+
+    def register_reader(self, account_name, password):
+        for reader in self.__reader_list:
+            if reader.account_name == account_name:
+                return "Username already exists. Please choose another one."
+
+        self.__num_of_account += 1
+        reader = Reader(account_name, password)
+        reader.id_account = self.__num_of_account
+        self.__reader_list.append(reader)
+        
+        return "Reader registered successfully."
+        
