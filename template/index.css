@@ -28,9 +28,11 @@
     padding: 20px;
     height: 100vh;
     /* ทำให้เนื้อหาอยู่ตรงกลางของหน้าจอทั้งความสูง */
+    margin-top: -100px;
 }
 
 .bookInfoDetails {
+    margin-top: -100px;
     margin-left: 50px;
     margin-right: 50px;
 }
@@ -39,3 +41,16 @@
     width: 320px;
     /* กำหนดขนาดสูงสุดของรูปภาพ */
 }
+
+.btn {
+    margin-left: 10px;
+}
+
+.star {
+    margin-top: -250px;
+    margin-left: 740px;
+}
+
+.comment {
+    margin-left: 740px;
+} 

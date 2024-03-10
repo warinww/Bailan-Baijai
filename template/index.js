@@ -255,12 +255,29 @@ function displayComment(commentList) {
 
   commentList.forEach(comment => {
     const commentDiv = document.createElement('div');
+    commentDiv.classList.add('commentDiv');
+    
+    const accountDiv = document.createElement('div');
+    accountDiv.classList.add('accountDiv');
+    
+    const datetimeDiv = document.createElement('div');
+    datetimeDiv.classList.add('datetimeDiv');
+
+    const commentPara = document.createElement('p');
+    commentPara.textContent = `${comment.comment}`;
+    commentDiv.appendChild(commentPara);
 
     const accountPara = document.createElement('p');
-    accountPara.textContent = `${comment.account} : ${comment.comment} on ${comment.datetime}`;
-    commentDiv.appendChild(accountPara);
+    accountPara.textContent = `${comment.account}`;
+    accountDiv.appendChild(accountPara);
+
+    const datetimePara = document.createElement('p');
+    datetimePara.textContent = `${comment.datetime}`;
+    datetimeDiv.appendChild(datetimePara);
 
     commentListDiv.appendChild(commentDiv);
+    commentListDiv.appendChild(accountDiv);
+    commentListDiv.appendChild(datetimeDiv);
   });
 }
 
