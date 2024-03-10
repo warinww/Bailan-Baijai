@@ -36,61 +36,66 @@ function displayBookList(bookList) {
   content.innerHTML = '';
 
   const divRow = document.createElement('div');
-  divRow.classList.add('row','row-cols-1', 'row-cols-md-3', 'g-4', 'col-md-10', 'm-auto');
+  divRow.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4', 'col-md-10', 'm-auto');
 
   bookList.forEach(book => {
-      const divCol = document.createElement('div');
-      divCol.classList.add('col');
+    const divCol = document.createElement('div');
+    divCol.classList.add('col');
 
-      const divCard = document.createElement('div');
-      divCard.classList.add('card');
+    const divCard = document.createElement('div');
+    divCard.classList.add('card');
 
-      const a = document.createElement('a');
-      a.href = `book_info.html?id=${book.id}`;
-      a.target = "_blank";
+    const a = document.createElement('a');
+    a.href = `book_info.html?id=${book.id}`;
 
-      const img = document.createElement('img');
-      img.src = `images/${book.book_name}.jpg`;
-      img.classList.add('card-img-top');
-      img.alt = 'Book Cover';
+    const img = document.createElement('img');
+    img.src = `images/${book.book_name}.jpg`;
+    img.classList.add('card-img-top');
+    img.alt = 'Book Cover';
 
-      const divCardBody = document.createElement('div');
-      divCardBody.classList.add('card-body');
+    const divCardBody = document.createElement('div');
+    divCardBody.classList.add('card-body');
 
-      const h5 = document.createElement('h5');
-      h5.classList.add('card-title');
-      h5.textContent = book.book_name;
+    const h5 = document.createElement('h5');
+    h5.classList.add('card-title');
+    h5.textContent = book.book_name;
 
-      const pWriter = document.createElement('p');
-      pWriter.classList.add('card-text');
-      pWriter.textContent = `Writer: ${book.writer_name}`;
+    const pWriter = document.createElement('p');
+    pWriter.classList.add('card-text');
+    pWriter.textContent = `Writer: ${book.writer_name}`;
 
-      const pRating = document.createElement('p');
-      pRating.classList.add('card-text');
-      pRating.textContent = `Rating: ${book.rating}`;
+    const pRating = document.createElement('p');
+    pRating.classList.add('card-text');
+    pRating.textContent = `Rating: ${book.rating}`;
 
-      const aPrice = document.createElement('a');
-      aPrice.href = '#';
-      aPrice.classList.add('btn', 'btn-info');
-      aPrice.dataset.bsToggle = 'tooltip';
-      aPrice.dataset.bsPlacement = 'right';
-      aPrice.title = 'Price';
-      aPrice.textContent = 'Price';
+    const aPrice = document.createElement('a');
+    aPrice.href = '#';
+    aPrice.classList.add('btn', 'btn-info');
+    aPrice.dataset.bsToggle = 'tooltip';
+    aPrice.dataset.bsPlacement = 'right';
+    aPrice.title = 'Price';
+    aPrice.textContent = 'Price';
 
-      a.appendChild(img);
-      divCardBody.appendChild(h5);
-      divCardBody.appendChild(pWriter);
-      divCardBody.appendChild(pRating);
-      divCardBody.appendChild(aPrice);
-      divCard.appendChild(a);
-      divCard.appendChild(divCardBody);
-      divCol.appendChild(divCard);
+    // Set onclick event to the card title to navigate to book_info.html
+    h5.onclick = function() {
+      window.location.href = `book_info.html?id=${book.id}`;
+    };
 
-      divRow.appendChild(divCol);
+    a.appendChild(img);
+    divCardBody.appendChild(h5);
+    divCardBody.appendChild(pWriter);
+    divCardBody.appendChild(pRating);
+    divCardBody.appendChild(aPrice);
+    divCard.appendChild(a);
+    divCard.appendChild(divCardBody);
+    divCol.appendChild(divCard);
+
+    divRow.appendChild(divCol);
   });
 
   content.appendChild(divRow);
 }
+
 
 
 async function get_book_info(id) {

@@ -34,7 +34,7 @@
                 <div class="d-flex align-items-center ms-auto">
                     <form id="searchForm" class="d-flex" role="search">
                         <input id="search_by_name" class="form-control me-2" type="text" placeholder="Search">
-                        <button id="searchButton" class="btn btn-outline-success" type="button">Search</button>
+                        <button id="searchButton" class="btn btn-outline-light me-2" type="button">Search</button>
                     </form>
                 </div>                
             </div>
@@ -43,14 +43,23 @@
 
     <h1 class="text-center py-4">All E-Books</h1><br><br>
 
-    <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="promotion_page()">promotion</button>
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-1">
+            <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="window.location.href='index.html'">firstpage</button>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="promotion_page()">promotion</button>
+          </div>
+        </div>
+      </div>
 
     
     <div id="content"></div> 
 
     <script>
         window.onload = function() {
-            get_all_book();   
+            get_all_book();
         };
     </script>
 
