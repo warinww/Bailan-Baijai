@@ -42,13 +42,15 @@
         </div>
     </nav>
 
+    <h1 class="text-center py-4">Book's information</h1>
+
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-1">
             <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="window.location.href='index.html'">firstpage</button>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="promotion_page()">promotion</button>
+            <button class="btn btn-danger d-block mx-auto promotion-btn" onclick="get_promotion_page()">promotion</button>
           </div>
         </div>
       </div>
@@ -70,16 +72,25 @@
         <span class="fa fa-star" onclick="toggleStar(this)"></span>
     
         <!-- ปุ่ม Submit -->
-        <button onclick="submitFormAndAddStar();" type="button">Submit</button>
+        <button onclick="submitFormAndAddStar()" class="btn btn-outline-dark me-2" type="button">Submit</button>
     </form>
+
+    <div class="d-flex align-items-center">
+        <form class="d-flex" role="comment">
+            <input id="comment" class="form-control me-2 mt-4" type="text" placeholder="Comment" style="border-top-color: #343a40; border-right-color: #343a40; border-bottom-color: #343a40; border-left-color: #343a40;">
+            <button onclick="add_comment(event)" class="btn btn-outline-dark me-2 mt-4" type="button">Submit</button>
+        </form>
+    </div>
     
+    <div class="mt-4" id="commentList"></div>
     
     <script>
         window.onload = function() {
             const queryParams = new URLSearchParams(window.location.search);
             const bookId = queryParams.get('id');
             get_book_info(bookId);   
-        };
+            show_comment();
+          };
     </script>
 
     <script src="js/bootstrap.min.js"></script>

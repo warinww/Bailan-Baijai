@@ -47,10 +47,10 @@ reader4 = Reader("Mer", "De")
 reader5 = Reader("Muc", "Du")
 reader6 = Reader('get','1234')
 
-writer1 = Writer("wrpak", "it")
-writer2 = Writer("warinww", 'me')
-writer3 = Writer("varinlu", "you")
-writer4 = Writer("monsac", "my")
+writer1 = Writer("Wrpak", "it")
+writer2 = Writer("Warinww", 'me')
+writer3 = Writer("Varinlu", "you")
+writer4 = Writer("Monsac", "my")
 
 book1 = Book("Great Book", "Fiction", 100, "intro", "Content")
 book2 = Book("Thai Book", "Non-fiction", 200, "intro", "Content")
@@ -59,8 +59,8 @@ book4 = Book("Code Book", "Non-fiction", 400, "intro", "Content")
 book5 = Book("Food Book", "Non-fiction", 500, "intro", "Content")
 book6 = Book("Animal Book", "Non-fiction", 600, "intro", "Content")
 
-promotion1 = Promotion("valentine", 10, 7)
-promotion2 = Promotion("new year", 15, 7)
+promotion1 = Promotion("Valentine", 10, 7)
+# promotion2 = Promotion("new year", 15, 7)
 
 chanels = [
     PaymentMethod("bank",1),
@@ -76,12 +76,12 @@ book1.review.add_comment(reader1, "I really enjoyed this book!")
 book1.review.add_comment(reader2, "Highly recommend it.")
 book2.review.add_comment(reader1, "A must-read for everyone!")
 
-promotion1.add_book_list(book1)
+# promotion2.add_book_list(book1)
 promotion1.add_book_list(book2)
-promotion2.add_book_list(book3)
-promotion2.add_book_list(book4)
-promotion2.add_book_list(book5)
-promotion2.add_book_list(book6)
+promotion1.add_book_list(book3)
+# promotion2.add_book_list(book4)
+# promotion2.add_book_list(book5)
+promotion1.add_book_list(book6)
 
 controller.upload_book(book1, writer1)
 controller.upload_book(book2, writer2)
@@ -113,7 +113,7 @@ controller.add_rating(6, 5)
 controller.add_rating(6, 3)
 
 controller.add_promotion_list(promotion1)
-controller.add_promotion_list(promotion2)
+# controller.add_promotion_list(promotion2)
 
 # ------------------------------------------
 reader1.update_book_collection_list(book1)

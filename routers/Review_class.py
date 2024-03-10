@@ -29,9 +29,3 @@ class Review:
     def add_comment(self, reader, comment):
         date_time = datetime.datetime.now()
         self.__comment_list.append((reader, comment, date_time))
-        
-    def show_comment(self):
-        format = []
-        for account, comment, date_time in self.__comment_list:
-            format.append(f"{account.account_name} account : {comment} on {date_time}")
-        return format

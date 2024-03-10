@@ -1,13 +1,14 @@
+function changeHeading(text) {
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = text;
+}
+
 async function get_all_book() {
-  try {
-      const response = await axios.get('http://127.0.0.1:8000/get_all_book');
-      console.log(response.data);
-      const book_list = response.data.book_list;
-      console.log(book_list);
-      displayBookList(book_list);
-  } catch (error) {
-      console.error("Error fetching books:", error);
-  }
+    const response = await axios.get('http://127.0.0.1:8000/get_all_book');
+    console.log(response.data);
+    const book_list = response.data.book_list;
+    console.log(book_list);
+    displayBookList(book_list);
 }
 
 function page_search_by_name() {
@@ -16,7 +17,6 @@ function page_search_by_name() {
 }
 
 async function search_by_name(event) {
-  console.log("in search")
   event.preventDefault();
 
   const input = document.getElementById("search_by_name").value;
@@ -24,9 +24,13 @@ async function search_by_name(event) {
 
   const response = await axios.get(
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
+    
   );
 
   console.log(response.data);
+
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = `Search : ${input}`;
 
   const book_list = response.data.book_list;
   console.log(book_list);
@@ -38,6 +42,11 @@ async function search_by_name_2(input) {
   const response = await axios.get(
       `http://127.0.0.1:8000/search_book_by_name?name=${input}`
   );
+
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = `Search : ${input}`;
+
+
   const book_list = response.data.book_list;
   displayBookList(book_list);
 }
@@ -88,11 +97,10 @@ function displayBookList(bookList) {
     aPrice.dataset.bsToggle = 'tooltip';
     aPrice.dataset.bsPlacement = 'right';
     aPrice.title = 'Price';
-    aPrice.textContent = 'Price';
+    aPrice.textContent = `Price: ${book.price} coin`;
 
     a.appendChild(img)
-    a.appendChild(h5);
-    // divCardBody.appendChild(h5);
+    divCardBody.appendChild(h5);
     divCardBody.appendChild(pWriter);
     divCardBody.appendChild(pRating);
     divCardBody.appendChild(aPrice);
@@ -105,7 +113,6 @@ function displayBookList(bookList) {
 
   content.appendChild(divRow);
 }
-
 
 
 async function get_book_info(id) {
@@ -126,8 +133,8 @@ function displayBookInfo(bookInfo) {
     <p>Type: ${bookInfo.type_book}</p>
     <p>Introduction: ${bookInfo.intro}</p>
     <p>Rating: ${bookInfo.rating}</p>
+    <p>Price: ${bookInfo.price} coin</p>
 `;
-
 
   const bookCover = document.getElementById('bookCover');
   bookCover.src = `images/${bookInfo.book_name}.jpg`;
@@ -164,4 +171,135 @@ async function add_rating() {
   const response = await axios.post(
     `http://127.0.0.1:8000/rating?book_id=${Id}&rating=${stars}`
   );
+}
+
+async function get_promotion() {
+  const response = await axios.get('http://127.0.0.1:8000/show_promotion');
+  const promotion = response.data.Promotion;
+  console.log(promotion)
+  
+  const heading = document.querySelector('h1.text-center.py-4');
+  heading.textContent = promotion;
+
+  book_in_promotion(promotion)
+}
+
+async function book_in_promotion(promotion) {
+
+  const response = await axios.get(
+    `http://127.0.0.1:8000/book_from_promotion?promotion=${promotion}`
+  );
+
+  console.log(response.data);
+
+  const book_list = response.data["Book in this promotion"];
+  console.log(book_list);
+  displayBookList(book_list);
+}
+
+async function get_promotion_page() {
+  window.location.href = 'index.html';
+  await book_in_promotion();
+}
+
+async function add_comment(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const accountId = 1; //เชื่อมกับ id account
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookId = urlParams.get('id');
+  const input = document.getElementById("comment").value;
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/comment?Reader_id=${accountId}&Book_id=${bookId}&comment=${input}`
+  );
+
+  console.log(response.data);
+}
+
+async function add_comment(event) {
+  if (event) {
+    event.preventDefault();
+  }
+
+  const accountId = 1; //เชื่อมกับ id account
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookId = urlParams.get('id');
+  const input = document.getElementById("comment").value;
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/comment?Reader_id=${accountId}&Book_id=${bookId}&comment=${input}`
+  );
+
+  console.log(response.data);
+  show_comment();
+}
+
+async function show_comment() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookId = urlParams.get('id');
+
+  const response = await axios.get(
+    `http://127.0.0.1:8000/view_comment_of_book?Book_id=${bookId}`
+  );
+
+  const commentList = response.data["Comment's list"];
+  displayComment(commentList);
+}
+
+function displayComment(commentList) {
+  const commentListDiv = document.getElementById('commentList');
+  commentListDiv.innerHTML = '';
+
+  commentList.forEach(comment => {
+    const commentDiv = document.createElement('div');
+
+    const accountPara = document.createElement('p');
+    accountPara.textContent = `${comment.account} : ${comment.comment} on ${comment.datetime}`;
+    commentDiv.appendChild(accountPara);
+
+    commentListDiv.appendChild(commentDiv);
+  });
+}
+
+async function add_complain(event) {
+  if (event) {
+    event.preventDefault();
+  }
+
+  const accountId = 1; //เชื่อมกับ id account
+  const input = document.getElementById("complain").value;
+
+  const response = await axios.post(
+    `http://127.0.0.1:8000/submit_complaint?user_id=${accountId}&message=${input}`
+  );
+
+  console.log(response.data);
+}
+
+async function show_complain() {
+  const response = await axios.get(
+    `http://127.0.0.1:8000/view_complaints`
+  );
+
+  const complainList = response.data["Complain"];
+  displayComplain(complainList);
+}
+
+function displayComplain(complainList) {
+  const complainContainer = document.getElementById('complainList');
+  complainContainer.innerHTML = '';
+
+  complainList.forEach(complain => {
+    const complainDiv = document.createElement('div');
+
+    const accountPara = document.createElement('p');
+    accountPara.textContent = `${complain.account} : ${complain.message} on ${complain.datetime}`;
+    complainDiv.appendChild(accountPara);
+
+    complainContainer.appendChild(complainDiv);
+  });
 }

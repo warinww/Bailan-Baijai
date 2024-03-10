@@ -82,7 +82,8 @@ class Controller:
                 "book_name" : book.name,
                 "writer_name" : book.writer.account_name,
                 "type_book" : book.book_type,
-                "rating" : book.review.rating
+                "rating" : book.review.rating,
+                "price" : book.price_coin
             }
             list.append(format)
         if list:
@@ -117,7 +118,8 @@ class Controller:
                     "book_name" : book.name,
                     "writer_name" : book.writer.account_name,
                     "type_book" : book.book_type,
-                    "rating" : book.review.rating
+                    "rating" : book.review.rating,
+                    "price" : book.price_coin
                 }
                 new_book_list.append(format)
         if new_book_list:
@@ -174,10 +176,13 @@ class Controller:
             if promotion.name_festival == promotion_name:
                 for book in promotion.book_list:
                     format = {
-                    "book_name" : book.name,
-                    "writer_name " : book.writer.account_name,
-                    "price_book" : book.price_coin
-                }
+                        "id": book.id,
+                        "book_name" : book.name,
+                        "writer_name" : book.writer.account_name,
+                        "type_book" : book.book_type,
+                        "rating" : book.review.rating,
+                        "price" : book.price_coin
+                    }
                     books.append(format)
                 if books == []:
                     return "No book in this promotion"
@@ -192,7 +197,8 @@ class Controller:
                     "writer_name" : book.writer.account_name,
                     "type_book" : book.book_type,
                     "intro" : book.intro,
-                    "rating" : book.review.rating
+                    "rating" : book.review.rating,
+                    "price" : book.price_coin
                 }
             return format
         return 'Not Found'
@@ -403,37 +409,50 @@ class Controller:
         book = self.search_book_by_id(book_id)
 
         if book is not None:
-            comments = book.review.show_comment() 
-            comment_list.append(comments)
+            for account, comment, date_time in book.review.comment_list:
+                format = {
+                    "account" : account.account_name,
+                    "comment" : comment,
+                    "datetime" : date_time
+                }
+                comment_list.append(format)
             return comment_list
-        
-        return "Not have comment"
+        return "Not found book"
 
 # Promotion
     def show_promotion(self):
-        promotions = []
         for promotion in self.__promotion_list:
-            promotions.append(f'promotion: {promotion.name_festival}')
-        if promotions == []:
-            return "No book in this pormotion"
-        return promotions
+            return promotion.name_festival
+        return "don't have pormotion now"
 
 # Complain
     def submit_complaint(self, user_id, message):
         complain = Complain(user_id, message)
-        self.__complain_list.append(complain)
+        
+        user = self.search_reader_by_id(user_id)
+        if user is None:
+            user = self.search_writer_by_id(user_id)
+            if user is None:
+                return "Not found account"
+            
         date_time = datetime.datetime.now()
         complain.date_time = date_time
+        self.__complain_list.append((user.account_name, message, complain.date_time))
         return "Success"
 
     def view_complaints(self):
-        if not self.complain_list:
+        if not self.__complain_list:
             return "No complaints available."
-        complaints_info = {}
-        for complain in self.complain_list:
-            if complain.user_id not in complaints_info:
-                complaints_info[complain.user_id] = []
-            complaints_info[complain.user_id].append({"message": complain.message, "datetime": complain.date_time})
+        complaints_info = []
+        for account, message, datetime in self.__complain_list:
+            format = {
+                "account": account,
+                "message": message,
+                "datetime": datetime
+            }
+            complaints_info.append(format)
+        if complaints_info == []:
+            return "Have no complain."
         return complaints_info
 
     def login_reader(self, account_name, password):
