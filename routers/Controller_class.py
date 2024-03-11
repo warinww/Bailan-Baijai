@@ -294,7 +294,7 @@ class Controller:
         else:
             return {"error": "The reader does not exist."}
 
-# Hostory
+# History
     def cointrasaction_history(self,account_id):
         coin_tran_list = []
         account = self.search_reader_by_id(account_id)
@@ -305,12 +305,29 @@ class Controller:
         
         for info in account.coin_transaction_history_list:
             if info.type == "Buy" or info.type == "Rent":
-                coin_tran_list.append(f"You {info.type} books by using {info.coin} coin on {info.date_time}")
+                coin_tran_list.append(f"You {info.type} books by using {info.coin} coin on {info.date_time}.")
+            elif info.type == "top up":
+                coin_tran_list.append(f"You {info.type} {info.coin} coin.")
             elif info.type == "Transfer":
-                coin_tran_list.append(f"You {info.type} {info.coin} coin on {info.date_time}")
+                coin_tran_list.append(f"You {info.type} {info.coin} coin on {info.date_time}.")
 
         if coin_tran_list:
             return coin_tran_list
+        else:
+            return "Not History"
+        
+    def payment_history(self,account_id):
+        payment_list = []
+        account = self.search_reader_by_id(account_id)
+        if account is  None:
+            account = self.search_writer_by_id(account_id)
+            if account is None:
+                return "Not Found Account"
+        for data in account.payment_history_list:
+             payment_list.append(f"You top up {data.money} Bath on {data.date_time}")
+    
+        if payment_list:
+            return payment_list
         else:
             return "Not History"
 
@@ -318,7 +335,11 @@ class Controller:
     def show_payment_method(self):
         chanels = []
         for c in self.__payment_method_list:
-            chanels.append({c.chanel_id : c.chanel_name})
+             format = {
+                 "id":c.chanel_id,
+                "name":c.chanel_name
+             }
+             chanels.append(format)
         return chanels
 
     def top_up(self, id_account, money, chanel):
@@ -336,7 +357,6 @@ class Controller:
                     else : return "Please increse/decrese money 1 Baht"
                 return "Not Found Chanel"
         return "Don't Have any Account"
-
     def transfer(self, writer_id, coin):
         account = self.search_writer_by_id(writer_id)
         if account is not None:

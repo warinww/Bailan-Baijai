@@ -330,28 +330,6 @@ function displayComplain(complainList) {
   });
 }
 
-loginForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const username = document.getElementById('loginUsername').value;
-  const password = document.getElementById('loginPassword').value;
-  try {
-    const response = await axios.post('http://localhost:8000/login', {
-      account_name: username,
-      password: password
-    });
-    alert(response.data.message);
-
-    // Change "Login/Register" button to account_name
-    const loginRegisterButton = document.getElementById('loginRegisterButton');
-    loginRegisterButton.textContent = username;
-
-    // Redirect to index.html after successful login
-    window.location.href = 'index.html';
-  } catch (error) {
-    alert('Failed to login. Invalid username or password.');
-  }
-});
-
 async function writer_book_collection() {
   const queryParams = new URLSearchParams(window.location.search);
   const writer = queryParams.get('writer');

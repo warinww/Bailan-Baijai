@@ -200,6 +200,10 @@ async def rent(reader_id: int, data: BookIdList):
 async def show_coin_transaction(ID:int) -> dict:
     return{"Coin Transaction's List" : controller.cointrasaction_history(ID)}
 
+# Payment History
+@app.get("/show_payment_history", tags=["History"])
+async def show_payment_history(ID : int) -> dict:
+    return{"Payment History's List" : controller.payment_history(ID)}
 
 # Money
 @app.get("/chanels",tags=["Money"])
