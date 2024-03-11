@@ -40,31 +40,18 @@
     </nav>
 
     <h1 class="text-center py-4">Top Up</h1>
-    
-    <div id="chanels"></div>
 
-    <script>
-        window.onload = function() {
-            get_chanels();
+    <div class="payment-container comment">
+        <p>Money<input id="coin" class="" type="text" placeholder="">Baht</p>
+    </div>
 
-            const queryParams = new URLSearchParams(window.location.search);
-            const searchInput = queryParams.get('search');
-            if (searchInput) {
-                search_by_name_2(searchInput);
-            }
-    
-            const queryParamsBookInfo = new URLSearchParams(window.location.search);
-            const bookId = queryParamsBookInfo.get('id');
-            if (bookId) {
-                show_comment();
-            }
-        };
-    </script>
+    <button id="transferButton" class="btn btn-outline-dark me-2 mt-4" type="button">Transfer</button>
+
 
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="index.js"></script>
-    <script src="topup.js"></script>
+    <script src="transfer.js"></script>
 </body>
 
 </html>

@@ -123,7 +123,7 @@ reader1.update_book_collection_list(book1)
 
 controller.top_up(1, 500, 1)
 
-writer1.adding_coin = 10
+writer1.adding_coin = 2000
 reader1.adding_coin = 2000  
 # ------------------------------------------
 
@@ -143,7 +143,7 @@ async def upload_book(writer_id : int , book_detail : Uploadbook) -> dict:
     if writer is not None:
         book = Book(book_detail.name,book_detail.book_type,book_detail.price_coin,book_detail.intro,book_detail.content)
         controller.upload_book(book,writer)
-        return {"Book's List" : controller.book_of_writer(writer)}
+        return {"Book's List" : controller.show_book_collection_of_writer(writer.account_name)}
     
 @app.get("/show_book_collection_of_reader", tags=["Book"])
 async def Show_Book_Collection_of_Reader(Reader_id:int) -> dict:
@@ -154,6 +154,10 @@ async def show_book_when_upload_book(writer_name: str) -> dict:
     return {"Book's list" : controller.show_book_collection_of_writer(writer_name)}
 
 # Search
+@app.get("/search_coin", tags=['Coin'])
+async def search_coin(id:int) -> dict:
+    return {"coin": controller.search_coin(id)}
+
 @app.get("/search_book_by_name", tags = ["Search"])
 async def search_book_by_bookname(name:str) -> dict:
     return {"book_list" : controller.search_book_by_bookname(name)}
@@ -218,7 +222,7 @@ async def top_up(account_id : int, money : coinInput, chanel_id:int):
 
 @app.post("/transfer", tags=['Money'])
 async def transfer_coin_to_money(writer_id:int, data: coinInput):
-    return {controller.transfer(writer_id, data.coin)}
+    return {"status": controller.transfer(writer_id, data.coin)}
 
 
 # Review
@@ -252,9 +256,17 @@ async def view_complaints():
 from fastapi import HTTPException
 
 # Register/Login
-@app.post("/register", tags = [ "Register/Login"])
-async def register(user: User):
+@app.post("/register_reader", tags = [ "Register/Login"])
+async def register_reader(user: User):
     message = controller.register_reader(user.account_name, user.password)
+    if "successfully" in message:
+        return {"message": message}
+    else:
+        raise HTTPException(status_code=400, detail=message)
+    
+@app.post("/register_writer", tags = [ "Register/Login"])
+async def register_writer(user: User):
+    message = controller.register_writer(user.account_name, user.password)
     if "successfully" in message:
         return {"message": message}
     else:
@@ -279,3 +291,15 @@ async def view_reader_list():
         }
         readers.append(format)
     return {"readers": readers}
+
+@app.get("/view_writer_list", tags = [ "Register/Login"])
+async def view_writer_list():
+    writers = []
+    for writer in controller.writer_list:
+        format = {
+            "id": writer.id_account,
+            "username": writer.account_name,
+            "password": writer.password
+        }
+        writers.append(format)
+    return {"writers": writers}
