@@ -248,7 +248,7 @@ from fastapi import HTTPException
 # Register/Login
 @app.post("/register", tags = [ "Register/Login"])
 async def register(user: User):
-    message = controller.register(user.account_name, user.password)
+    message = controller.register_reader(user.account_name, user.password)
     if "successfully" in message:
         return {"message": message}
     else:
@@ -264,11 +264,12 @@ async def login(user: User):
 
 @app.get("/view_reader_list", tags = [ "Register/Login"])
 async def view_reader_list():
-    reader_list = []
+    readers = []
     for reader in controller.reader_list:
-        reader_list.append({
+        format = {
             "id": reader.id_account,
             "username": reader.account_name,
             "password": reader.password
-        })
-    return {"readers": reader_list}
+        }
+        readers.append(format)
+    return {"readers": readers}
