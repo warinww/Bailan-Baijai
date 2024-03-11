@@ -16,5 +16,3 @@ async function transfer(event) {
         alert(error.response ? error.response.data.detail : 'An error occurred.');
     }
 }
-
-document.getElementById('TransferButton').addEventListener('click', transfer);
