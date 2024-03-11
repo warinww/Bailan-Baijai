@@ -121,6 +121,8 @@ controller.add_promotion_list(promotion1)
 # ------------------------------------------
 reader1.update_book_collection_list(book1)
 
+controller.top_up(1, 500, 1)
+
 writer1.adding_coin = 10
 reader1.adding_coin = 2000  
 # ------------------------------------------
