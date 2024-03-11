@@ -90,8 +90,8 @@ function displayBookList(bookList) {
     pWriter.textContent = `Writer: ${book.writer_name}`;
     pWriter.style.cursor = 'pointer';
     pWriter.addEventListener('click', function() {
-      const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
-      window.location.href = writerBookCollectionUrl;
+    const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
+    window.location.href = writerBookCollectionUrl;
     });
 
     const pRating = document.createElement('p');
@@ -107,8 +107,6 @@ function displayBookList(bookList) {
     aPrice.style.backgroundColor = '#ff6347';
     aPrice.style.borderColor = '#ff6347';
     aPrice.textContent = `Price: ${book.price} coin`;
-
-
 
     a.appendChild(img)
     divCardBody.appendChild(h5);
@@ -140,18 +138,22 @@ function displayBookInfo(bookInfo) {
   const bookInfoDiv = document.getElementById('bookInfo');
   bookInfoDiv.innerHTML = `
     <h1>${bookInfo.book_name}</h1>
-    <p>Writer: ${bookInfo.writer_name}</p>
+    <p>Writer: <a href="#" id="writerLink">${bookInfo.writer_name}</a></p>
     <p>Type: ${bookInfo.type_book}</p>
     <p>Introduction: ${bookInfo.intro}</p>
     <p>Rating: ${bookInfo.rating}</p>
     <p>Price: ${bookInfo.price} coin</p>
-`;
+  `;
 
   const bookCover = document.getElementById('bookCover');
   bookCover.src = `images/${bookInfo.book_name}.jpg`;
   bookCover.alt = bookInfo.book_name;
+  const writerLink = document.getElementById('writerLink');
+  writerLink.addEventListener('click', () => {
+    const writerBookCollectionUrl = `writer_book_collection.html?writer=${bookInfo.writer_name}`;
+    window.location.href = writerBookCollectionUrl;
+  });
 }
-
 
 
 function toggleStar(star) {
