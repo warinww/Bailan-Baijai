@@ -1,27 +1,4 @@
-async function get_book_info(id) {
-    const response = await axios.get(
-        `http://127.0.0.1:8000/book_info?id=${id}`
-    );
-    console.log(response.data);
-
-    const bookInfo = response.data["Book's info"];
-    displayBookInfo(bookInfo);
-}
-
-function displayBookInfo(bookInfo) {
-    const bookInfoDiv = document.getElementById('bookInfo');
-    bookInfoDiv.innerHTML = `
-        <h1>${bookInfo.book_name}</h1>
-        <p>Writer: ${bookInfo.writer_name}</p>
-        <p>Type: ${bookInfo.type_book}</p>
-        <p>Introduction: ${bookInfo.intro}</p>
-        <p>Rating: ${bookInfo.rating}</p>
-    `;
-
-    const bookCover = document.getElementById('bookCover');
-    bookCover.src = `images/${bookInfo.book_name}.jpg`;
-    bookCover.alt = bookInfo.book_name;
-}
+const account_id = localStorage.getItem('account_id');
 
 document.getElementById('addToCartButton').addEventListener('click', function () {
     const queryParams = new URLSearchParams(window.location.search);
@@ -84,35 +61,6 @@ function showCart(readerId) {
         });
 }
 
-window.onload = function () {
-    const queryParams = new URLSearchParams(window.location.search);
-    const bookId = queryParams.get('id');
-    get_book_info(bookId);
-};async function get_book_info(id) {
-    const response = await axios.get(
-        `http://127.0.0.1:8000/book_info?id=${id}`
-    );
-    console.log(response.data);
-
-    const bookInfo = response.data["Book's info"];
-    displayBookInfo(bookInfo);
-}
-
-function displayBookInfo(bookInfo) {
-    const bookInfoDiv = document.getElementById('bookInfo');
-    bookInfoDiv.innerHTML = `
-        <h1>${bookInfo.book_name}</h1>
-        <p>Writer: ${bookInfo.writer_name}</p>
-        <p>Type: ${bookInfo.type_book}</p>
-        <p>Introduction: ${bookInfo.intro}</p>
-        <p>Rating: ${bookInfo.rating}</p>
-    `;
-
-    const bookCover = document.getElementById('bookCover');
-    bookCover.src = `images/${bookInfo.book_name}.jpg`;
-    bookCover.alt = bookInfo.book_name;
-}
-
 document.getElementById('addToCartButton').addEventListener('click', function () {
     const queryParams = new URLSearchParams(window.location.search);
     const book_id = queryParams.get('id');
@@ -173,9 +121,3 @@ function showCart(readerId) {
             alert('Error fetching cart data. Please try again later.');
         });
 }
-
-window.onload = function () {
-    const queryParams = new URLSearchParams(window.location.search);
-    const bookId = queryParams.get('id');
-    get_book_info(bookId);
-};

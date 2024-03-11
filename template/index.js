@@ -1,3 +1,5 @@
+const account_id = localStorage.getItem('account_id');
+
 function changeHeading(text) {
   const heading = document.querySelector('h1.text-center.py-4');
   heading.textContent = text;
@@ -216,13 +218,12 @@ async function add_comment(event) {
     event.stopPropagation();
   }
 
-  const accountId = 1; //เชื่อมกับ id account
   const urlParams = new URLSearchParams(window.location.search);
   const bookId = urlParams.get('id');
   const input = document.getElementById("comment").value;
 
   const response = await axios.post(
-    `http://127.0.0.1:8000/comment?Reader_id=${accountId}&Book_id=${bookId}&comment=${input}`
+    `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
   );
 
   console.log(response.data);
@@ -233,13 +234,12 @@ async function add_comment(event) {
     event.preventDefault();
   }
 
-  const accountId = 1; //เชื่อมกับ id account
   const urlParams = new URLSearchParams(window.location.search);
   const bookId = urlParams.get('id');
   const input = document.getElementById("comment").value;
 
   const response = await axios.post(
-    `http://127.0.0.1:8000/comment?Reader_id=${accountId}&Book_id=${bookId}&comment=${input}`
+    `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
   );
 
   console.log(response.data);
@@ -295,11 +295,10 @@ async function add_complain(event) {
     event.preventDefault();
   }
 
-  const accountId = 1; //เชื่อมกับ id account
   const input = document.getElementById("complain").value;
 
   const response = await axios.post(
-    `http://127.0.0.1:8000/submit_complaint?user_id=${accountId}&message=${input}`
+    `http://127.0.0.1:8000/submit_complaint?user_id=${account_id}&message=${input}`
   );
 
   console.log(response.data);
@@ -372,10 +371,9 @@ async function reader_book_collection() {
   const heading = document.querySelector('h1.text-center.py-4');
   heading.textContent = `My Collection`;
 
-  const id = 1; //รอเชื่อม
   const content = document.getElementById("content");
   const response = await axios.get(
-      `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${id}`
+      `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${account_id}`
   );
 
   const book_list = response.data["Book's list"];

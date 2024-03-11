@@ -1,3 +1,4 @@
+const account_id = localStorage.getItem('account_id');
 
 async function fetchCartData() {
     try {

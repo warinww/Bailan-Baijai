@@ -1,4 +1,3 @@
-
 const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
 
@@ -28,6 +27,8 @@ loginForm.addEventListener('submit', async (event) => {
             password: password
         });
         alert(response.data.message);
+        const account_id = response.data.account_id;
+        localStorage.setItem('account_id', account_id); // เก็บ account_id ลงใน localStorage
         // Redirect to dashboard or handle success
         window.location.href = 'index.html';
     } catch (error) {
