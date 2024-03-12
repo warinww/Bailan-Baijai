@@ -1,4 +1,4 @@
-let selectedBooks = {};
+let selectedBooks = [];
 
 async function showCartItems() {
     const accountId = localStorage.getItem('account_id');
@@ -18,21 +18,20 @@ async function showCartItems() {
             bookItem.classList.add('col-md-4', 'mb-4');
 
             const bookInfo = `
-            <div class="card" style="display: flex; flex-direction: row; align-items: center;">
-                <img src="images/${item.name}.jpg" class="card-img-top" alt="${item.name} Image" style="width: 250px;">
-                <div class="card-body" style="margin-left: 10px;">
-                    <h5 class="card-title">${item.name}</h5>
-                    <p class="card-text">Price: ${item.price} coin</p>
-                    <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Remove</button>
-                    <div class="form-check" style="margin-top: 10px;">
-                        <input type="checkbox" class="form-check-input" id="bookCheckbox${item.id}" 
-                            onchange="toggleBookSelection(${item.id})" ${selectedBooks[item.id] ? 'checked' : ''}>
-                        <label class="form-check-label" for="bookCheckbox${item.id}">Select for Checkout</label>
+                <div class="card">
+                    <img src="images/${item.name}.jpg" class="card-img-top" alt="${item.name} Image">
+                    <div class="card-body">
+                        <h5 class="card-title">${item.name}</h5>
+                        <p class="card-text">Price: ${item.price} coin</p>
+                        <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Remove</button>
+                        <div class="form-check" style="margin-top: 10px;">
+                            <input type="checkbox" class="form-check-input" id="bookCheckbox${item.id}" 
+                                onchange="toggleBookSelection(${item.id})" ${selectedBooks.append(item.id) ? 'checked' : ''}>
+                            <label class="form-check-label" for="bookCheckbox${item.id}">Select for Checkout</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-
+            `;
 
             bookItem.innerHTML = bookInfo;
             cartItemsContainer.appendChild(bookItem);
