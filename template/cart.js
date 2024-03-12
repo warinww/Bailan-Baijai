@@ -9,12 +9,13 @@ async function showCartItems() {
         cartItems = response.data.reader_cart;
 
         const cartItemsContainer = document.getElementById('cartItems');
-        cartItemsContainer.innerHTML = ''; // Clear the cart items before rendering new data
+        cartItemsContainer.innerHTML = '';
+        console.log(cartItems)
 
         if (cartItems === "Reader's cart is empty") {
             updateTotalCoins("Reader's cart is empty");
             return;
-        }
+        } else {
 
         cartItems.forEach(item => {
             const bookItem = document.createElement('div');
@@ -36,9 +37,11 @@ async function showCartItems() {
                 </div>
             `;
 
+            
             bookItem.innerHTML = bookInfo;
             cartItemsContainer.appendChild(bookItem);
         });
+        }
 
         updateTotalCoins();
     } catch (error) {
@@ -74,10 +77,10 @@ function updateTotalCoins() {
         const bookItem = cartItems.find(item => item.id === bookId);
         if (bookItem) {
             console.log(bookItem)
-            // totalCoins += bookItem.price;
+            totalCoins += bookItem.price;
         }
     }
-    totalCoinsElement.textContent = `Total Coins: ${totalCoins}`;
+    totalCoinsElement.textContent = `Total purchase coins: ${totalCoins} coin Total rental coins: ${totalCoins*0.8} coin`;
 }
 
 function toggleBookSelection(bookId) {

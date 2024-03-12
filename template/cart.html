@@ -42,14 +42,18 @@
     </nav>
 
     <h1 class="text-center py-4">My Cart</h1>
+
+    <p id="totalCoins" class="text-center py-4">Total purchase coins: 0 coin Total rental coins: 0 coin</p>
     <div class="container mt-5">
         <div id="cartItems" class="row mt-4"></div>
     
-        <p id="totalCoins">Total Coins: 0</p>
+        
     
-        <!-- <div class="text-end mt-4">
-            <button class="btn btn-primary" onclick="checkout()">Checkout</button>
-        </div> -->
+        <div class="text-center py-4">
+            <button class="btn btn-outline-dark me-2" style="margin-right: 10px;" onclick="buy()">Buy</button>
+            <button class="btn btn-outline-dark me-2" onclick="rent()">Rent</button>
+        </div>
+        
     </div>
 
 

@@ -71,12 +71,14 @@ class Book:
     @promotion.setter
     def promotion(self, new_promotion):
         self.__promotion = new_promotion
-    
-    @price_coin.setter
-    def coin(self):
+        
         if self.__promotion is not None:
             if self.__promotion.discount > 0 and self.__promotion.discount <= 100:
                 self.__price_coin *= 1-(self.__promotion.discount*0.01)
+    
+    # @price_coin.setter
+    # def coin(self):
+        
 
     @num_of_reader.setter
     def num_of_reader(self, new_num_of_reader):
