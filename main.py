@@ -172,7 +172,7 @@ async def get_book_by_promotion(promotion:str) -> dict:
 
 
 #Cart
-@app.get("/add_cart", tags=['Cart'])
+@app.post("/add_cart", tags=['Cart'])
 async def add_book_to_card(reader_id: int, book_id: int) -> dict:
     return {"Book's in card": controller.add_book_to_cart(book_id, reader_id)}
 
@@ -182,7 +182,7 @@ async def remove_book_from_cart(reader_id :int, book_id :int) -> dict:
 
 @app.get("/show_cart", tags=["Cart"])
 async def show_cart(reader_id: int) -> dict:
-    return {"Reader's Cart": controller.show_reader_cart(reader_id)}  
+    return {"reader_cart": controller.show_reader_cart(reader_id)}  
 
 @app.post("/select_book_checkout", tags=['Cart'])
 async def select_book_checkout(reader_id: int, book_ids: List[int]):
@@ -272,11 +272,11 @@ async def register_writer(user: User):
     else:
         raise HTTPException(status_code=400, detail=message)
 
-@app.post("/login", tags = [ "Register/Login"])
+@app.post("/login", tags=["Register/Login"])
 async def login(user: User):
-    account = controller.login_reader(user.account_name, user.password)
-    if account:
-        return {"message": "Login successful", "account_id": account.id_account}
+    account_id, account_type = controller.login(user.account_name, user.password)
+    if account_id and account_type:
+        return {"message": "Login successful", "account_id": account_id, "account_type": account_type}
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 

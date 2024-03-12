@@ -499,14 +499,14 @@ class Controller:
             return "Have no complain."
         return complaints_info
 
-    def login_reader(self, account_name, password):
+    def login(self, account_name, password):
         for account in self.__reader_list:
             if account.account_name == account_name and account.password == password:
-                return account
+                return account.id_account, "reader"
         for account in self.writer_list:
             if account.account_name == account_name and account.password == password:
-                return account
-        return None
+                return account.id_account, "writer"
+        return None, None
 
     def register_reader(self, account_name, password):
         for reader in self.__reader_list:

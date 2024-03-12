@@ -15,7 +15,7 @@ registerForm.addEventListener('submit', async (event) => {
             });
             alert(response.data.message);
             localStorage.setItem('account_type', 'reader');
-            localStorage.setItem('username', username); // เก็บ username ใน localStorage
+            localStorage.setItem('username', username);
 
         } catch (error) {
             alert(error.response.data.detail);
@@ -28,7 +28,7 @@ registerForm.addEventListener('submit', async (event) => {
             });
             alert(response.data.message);
             localStorage.setItem('account_type', 'writer');
-            localStorage.setItem('username', username); // เก็บ username ใน localStorage
+            localStorage.setItem('username', username);
             
         } catch (error) {
             alert(error.response.data.detail);
@@ -48,7 +48,8 @@ loginForm.addEventListener('submit', async (event) => {
         alert(response.data.message);
         const account_id = response.data.account_id;
         localStorage.setItem('account_id', account_id);
-        localStorage.setItem('username', username); // เก็บ username ใน localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('account_type', response.data.account_type);
         window.location.href = 'index.html';
     } catch (error) {
         alert('Failed to login. Invalid username or password.');
