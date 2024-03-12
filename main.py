@@ -174,7 +174,7 @@ async def get_book_by_promotion(promotion:str) -> dict:
 #Cart
 @app.post("/add_cart", tags=['Cart'])
 async def add_book_to_card(reader_id: int, book_id: int) -> dict:
-    return {"Book's in card": controller.add_book_to_cart(book_id, reader_id)}
+    return {"book": controller.add_book_to_cart(book_id, reader_id)}
 
 @app.delete("/remove_book", tags = ["Cart"])
 async def remove_book_from_cart(reader_id :int, book_id :int) -> dict:

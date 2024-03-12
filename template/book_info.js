@@ -4,12 +4,24 @@ async function addToCart() {
     const accountId = localStorage.getItem('account_id');
     try {
         const response = await axios.post(`http://127.0.0.1:8000/add_cart?reader_id=${accountId}&book_id=${bookId}`);
-        Swal.fire({
-            icon: "success",
-            title: "Book added to cart",
-            showConfirmButton: false,
-            timer: 1500
-        });
+        console.log(response.data.book)
+        result = response.data.book
+        console.log(result)
+        if (result === "Success") {
+            Swal.fire({
+                icon: "success",
+                title: "Book added to cart",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (result === "Book is already in the cart"){
+            Swal.fire({
+                icon: "error",
+                title: "Book is already in the cart",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } 
 
     } catch (error) {
         Swal.fire({
