@@ -1,17 +1,20 @@
 let selectedBooks = [];
+let cartItems;
 
 async function showCartItems() {
     const accountId = localStorage.getItem('account_id');
 
     try {
         const response = await axios.get(`http://localhost:8000/show_cart?reader_id=${accountId}`);
-        const cartItems = response.data.reader_cart;
-
-        console.log(cartItems)
-        
+        cartItems = response.data.reader_cart;
 
         const cartItemsContainer = document.getElementById('cartItems');
-        cartItemsContainer.innerHTML = '';
+        cartItemsContainer.innerHTML = ''; // Clear the cart items before rendering new data
+
+        if (cartItems === "Reader's cart is empty") {
+            updateTotalCoins("Reader's cart is empty");
+            return;
+        }
 
         cartItems.forEach(item => {
             const bookItem = document.createElement('div');
@@ -24,9 +27,9 @@ async function showCartItems() {
                         <h5 class="card-title">${item.name}</h5>
                         <p class="card-text">Price: ${item.price} coin</p>
                         <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Remove</button>
-                        <div class="form-check" style="margin-top: 10px;">
+                        <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="bookCheckbox${item.id}" 
-                                onchange="toggleBookSelection(${item.id})" ${selectedBooks.append(item.id) ? 'checked' : ''}>
+                                onchange="toggleBookSelection(${item.id})" ${selectedBooks.includes(item.id) ? 'checked' : ''}>
                             <label class="form-check-label" for="bookCheckbox${item.id}">Select for Checkout</label>
                         </div>
                     </div>
@@ -43,30 +46,47 @@ async function showCartItems() {
     }
 }
 
+async function removeFromCart(bookId) {
+    const accountId = localStorage.getItem('account_id');
+    console.log('Removing book:', bookId);
+    try {
+        await axios.delete(`http://127.0.0.1:8000/remove_book?reader_id=${accountId}&book_id=${bookId}`);
+        console.log('Book removed successfully');
+
+        // After successful removal, refresh the cart items
+        showCartItems();
+        
+    } catch (error) {
+        console.error('Error removing book from cart:', error);
+    }
+}
+
 function updateTotalCoins() {
     const totalCoinsElement = document.getElementById('totalCoins');
     let totalCoins = 0;
 
-    for (const bookId in selectedBooks) {
-        if (selectedBooks[bookId]) {
-            // If the book is selected, add its price to the total coins
-            const bookItem = cartItems.find(item => item.id === bookId);
-            if (bookItem) {
-                totalCoins += bookItem.price;
-            }
-        }
+    if (cartItems === "Reader's cart is empty") {
+        totalCoinsElement.textContent = "Reader's cart is empty";
+        return;
     }
 
+    for (const bookId of selectedBooks) {
+        const bookItem = cartItems.find(item => item.id === bookId);
+        if (bookItem) {
+            console.log(bookItem)
+            // totalCoins += bookItem.price;
+        }
+    }
     totalCoinsElement.textContent = `Total Coins: ${totalCoins}`;
 }
 
 function toggleBookSelection(bookId) {
-    selectedBooks[bookId] = !selectedBooks[bookId];
-    updateTotalCoins(); // Update the total coins display
+    const index = selectedBooks.indexOf(bookId);
+
+    if (index !== -1) {
+        selectedBooks.splice(index, 1);
+    } else {
+        selectedBooks.push(bookId);
+    }
+    updateTotalCoins();
 }
-
-
-// Call the showCartItems function when the cart.html page loads
-window.onload = function () {
-    showCartItems();
-};
