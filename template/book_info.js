@@ -21,7 +21,14 @@ async function addToCart() {
                 showConfirmButton: false,
                 timer: 1500
             });
-        } 
+        } else if (result === "You already have this book"){
+            Swal.fire({
+                icon: "error",
+                title: "You already have this book",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
 
     } catch (error) {
         Swal.fire({

@@ -253,12 +253,15 @@ class Controller:
         if book is not None:
             reader = self.search_reader_by_id(reader_id)
             if reader is not None:
-                if book not in reader.cart.book_cart_list:
+                if book not in reader.cart.book_cart_list and reader.book_collection_list:
                     reader.cart.add_book_to_cart(book)
                     return "Success"
+                elif book in reader.book_collection_list:
+                    return "You already have this book"
                 else:
                     return "Book is already in the cart"
-        return "Not found"  
+            return "Not found this account"  
+        return "Not found this book"  
     
     def remove_book_from_cart(self, reader_id, book_id):
         reader = self.search_reader_by_id(reader_id)

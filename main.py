@@ -60,7 +60,6 @@ book5 = Book("Food Book", "Non-fiction", 500, "intro", "Content")
 book6 = Book("Animal Book", "Non-fiction", 600, "intro", "Content")
 
 promotion1 = Promotion("Valentine", 10, 7)
-# promotion2 = Promotion("new year", 15, 7)
 
 chanels = [
     PaymentMethod("bank",1),
@@ -76,11 +75,8 @@ book1.review.add_comment(reader1, "I really enjoyed this book!")
 book1.review.add_comment(reader2, "Highly recommend it.")
 book2.review.add_comment(reader1, "A must-read for everyone!")
 
-# promotion2.add_book_list(book1)
 promotion1.add_book_list(book2)
 promotion1.add_book_list(book3)
-# promotion2.add_book_list(book4)
-# promotion2.add_book_list(book5)
 promotion1.add_book_list(book6)
 
 controller.upload_book(book1, writer1)
@@ -116,16 +112,12 @@ controller.add_rating(6, 5)
 controller.add_rating(6, 3)
 
 controller.add_promotion_list(promotion1)
-# controller.add_promotion_list(promotion2)
-
-# ------------------------------------------
 reader1.update_book_collection_list(book1)
 
 controller.top_up(1, 500, 1)
 
 writer1.adding_coin = 2000
 reader1.adding_coin = 2000  
-# ------------------------------------------
 
 
 #  Book
