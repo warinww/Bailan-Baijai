@@ -11,7 +11,7 @@ class Controller:
         self.__complain_list = []
         self.__book_list = []
         self.__payment_method_list = []
-        self.__promotion_list = []
+        self.__promotion = None
         self.__num_of_book = 0
         self.__num_of_account = 0
 
@@ -36,8 +36,8 @@ class Controller:
         return self.__payment_method_list
     
     @property
-    def promotion_list(self):
-        return self.__promotion_list
+    def promotion(self):
+        return self.__promotion
 
 # Add
     def add_reader(self, reader):
@@ -49,8 +49,6 @@ class Controller:
         self.__num_of_account += 1
         writer.id_account = self.__num_of_account
         self.__writer_list.append(writer)
-        
-    
 
     def add_complain(self, complain):
         self.__complain_list.append(complain)
@@ -64,12 +62,13 @@ class Controller:
 
     def add_payment_method(self, payment_method):
         self.__payment_method_list.append(payment_method)
-        
-    def add_promotion_list(self, promotion):
-        self.__promotion_list.append(promotion)
-        for prom in self.__promotion_list:
-            if datetime.datetime.now() > prom.end_date_time:
-                self.__promotion_list.remove(prom)
+    
+    @promotion.setter
+    def promotion(self, new_promotion):
+        if self.__promotion is None:
+            self.__promotion = new_promotion
+        else:
+            return "This promotion is not timed out."
 
 # Book
     def get_all_book(self):
@@ -118,7 +117,7 @@ class Controller:
     def search_book_by_bookname(self, bookname):
         new_book_list = []
         for book in self.__book_list:
-            if book.name == bookname or bookname in book.name:
+            if book.name.lower() == bookname.lower() or bookname.lower() in book.name.lower():
                 format = {
                     "id": book.id,
                     "book_name" : book.name,
@@ -178,9 +177,9 @@ class Controller:
             
     def search_book_by_promotion(self, promotion_name):
         books = []
-        for promotion in self.__promotion_list:
-            if promotion.name_festival == promotion_name:
-                for book in promotion.book_list:
+        if self.__promotion is not None:
+            if self.__promotion.name_festival == promotion_name:
+                for book in self.__promotion.book_list:
                     format = {
                         "id": book.id,
                         "book_name" : book.name,
@@ -190,11 +189,10 @@ class Controller:
                         "price" : book.price_coin
                     }
                     books.append(format)
-                if books == []:
-                    return "No book in this promotion"
                 return books
-        return "Not found this promotion"
-            
+            return "Not found this promotion"
+        return "Don't have promotion now"
+
     def show_book_info(self, book_id):
         book = self.search_book_by_id(book_id)
         if book is not None:
@@ -330,17 +328,17 @@ class Controller:
     def payment_history(self,account_id):
         payment_list = []
         account = self.search_reader_by_id(account_id)
-        if account is  None:
-            account = self.search_writer_by_id(account_id)
-            if account is None:
-                return "Not Found Account"
-        for data in account.payment_history_list:
-             payment_list.append(f"You top up {data.money} Bath on {data.date_time}")
-    
+        if account is not None:
+            for data in account.payment_history_list:
+                payment_list.append(f"You top up {data.money} Bath on {data.date_time}")
+        account = self.search_writer_by_id(account_id)
+        if account is not None:
+            for data in account.payment_history_list:
+                payment_list.append(f"You transfer {data.money} coins on {data.date_time}")
         if payment_list:
             return payment_list
         else:
-            return "Not History"
+            return "No History"
 
 # Money
     def show_payment_method(self):
@@ -376,6 +374,7 @@ class Controller:
                 date_time = datetime.datetime.now()
                 account.money = money
                 account.losing_coin = coin
+                account.update_payment_history_list(money,date_time)
                 account.update_coin_transaction_history_list(coin, date_time, "Transfer")
                 return "Success"
             return "You don't have enough coin"
@@ -465,12 +464,6 @@ class Controller:
                 comment_list.append(format)
             return comment_list
         return "Not found book"
-
-# Promotion
-    def show_promotion(self):
-        for promotion in self.__promotion_list:
-            return promotion.name_festival
-        return "don't have pormotion now"
 
 # Complain
     def submit_complaint(self, user_id, message):

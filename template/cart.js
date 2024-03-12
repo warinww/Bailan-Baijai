@@ -106,6 +106,36 @@ async function rent() {
             showConfirmButton: false,
             timer: 1500
         });
+        for (const book of selectedBooks) {
+            removeFromCart(book);
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#" style="text-align: center;">Why do I have this issue?</a>'
+        }); 
+    }
+}
+
+
+async function buy() {
+    try {
+        const accountId = localStorage.getItem('account_id');
+        const response = await axios.post(`http://127.0.0.1:8000/buy_book?account_id=${accountId}`, {
+            book_id: selectedBooks
+        });
+        console.log(response.data.Buy);
+        Swal.fire({
+            icon: "success",
+            title: "Book in collection",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        for (const book of selectedBooks) {
+            removeFromCart(book);
+        }
     } catch (error) {
         Swal.fire({
             icon: "error",

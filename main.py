@@ -2,9 +2,11 @@ from typing import Optional
 from typing import Union
 from typing import List
 from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException , File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
+import datetime
 
 # routers class
 from routers.Controller_class import Controller
@@ -111,7 +113,7 @@ controller.add_rating(5, 4)
 controller.add_rating(6, 5)
 controller.add_rating(6, 3)
 
-controller.add_promotion_list(promotion1)
+controller.promotion = promotion1
 reader1.update_book_collection_list(book1)
 
 controller.top_up(1, 500, 1)
@@ -135,7 +137,7 @@ async def upload_book(writer_id : int , book_detail : Uploadbook) -> dict:
     if writer is not None:
         book = Book(book_detail.name,book_detail.book_type,book_detail.price_coin,book_detail.intro,book_detail.content)
         controller.upload_book(book,writer)
-        return {"Book's List" : controller.show_book_collection_of_writer(writer.account_name)}
+        return {"status" : controller.upload_book(book,writer)}
     
 @app.get("/show_book_collection_of_reader", tags=["Book"])
 async def Show_Book_Collection_of_Reader(Reader_id:int) -> dict:
@@ -234,7 +236,7 @@ async def view_comment(Book_id : int) -> dict:
 # Promotion
 @app.get("/show_promotion", tags=['Promotion'])
 async def show_promotion() -> dict:
-    return {"Promotion": controller.show_promotion()}
+    return {"Promotion": controller.promotion.name_festival}
 
 #Complain
 @app.post("/submit_complaint", tags = ["Complain"])
@@ -295,3 +297,15 @@ async def view_writer_list():
         }
         writers.append(format)
     return {"writers": writers}
+
+upload_folder_path = r"C:\D1\semetre2\OOP\Bailan web\template\images"
+
+@app.post("/uploadfile/", tags=["Upload Image"])
+async def create_upload_file(file: UploadFile = File(...)):
+    # Save the content of the uploaded file to a new file
+    file_path = os.path.join(upload_folder_path, file.filename)
+
+    with open(file_path, "wb") as f:
+        f.write(file.file.read())
+
+    return {"filename": file_path}

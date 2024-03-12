@@ -16,6 +16,14 @@ async function get_all_book() {
 
 function page_search_by_name() {
   const input = document.getElementById("search_by_name").value;
+  if (input === '') {
+    Swal.fire({
+      icon: "error",
+      title: "Nothing fill.",
+      text: "Please fill before search.",
+    });
+    return;
+  }
   window.location.href = `index.html?search=${input}`;
 }
 
@@ -24,6 +32,16 @@ async function search_by_name(event) {
 
   const input = document.getElementById("search_by_name").value;
   const content = document.getElementById("content");
+
+  if (input === '') {
+    Swal.fire({
+      icon: "error",
+      title: "Nothing fill.",
+      text: "Please fill before search.",
+    });
+    return;
+  }
+  window.location.href = `index.html?search=${input}`;
 
   const response = await axios.get(
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
@@ -161,6 +179,16 @@ function toggleStar(star) {
 }
 
 function submitFormAndAddStar() {
+  const accountType = localStorage.getItem('account_type');
+  if (accountType === "writer") {
+    Swal.fire({
+      icon: "error",
+      title: "Can't add rating.",
+      text: "Writers are not allowed to add rating.",
+    });
+    return;
+  }
+
   add_rating();
   submitForm();
 }
@@ -185,9 +213,18 @@ async function add_rating() {
     const response = await axios.post(
       `http://127.0.0.1:8000/rating?book_id=${Id}&rating=${stars}`
     );
-    alert("Success");
+    Swal.fire({
+      icon: "success",
+      title: "Ratings added!",
+    });
+    return;
   } catch (error) {
-      alert(error.response.data.detail);
+      Swal.fire({
+        icon: "error",
+        title: "Can't add rating.",
+        text: "Have something wrong.",
+      });
+      return;
   }
 }
 
@@ -223,6 +260,15 @@ async function add_comment(event) {
   if (event) {
     event.preventDefault();
   }
+  
+  const accountType = localStorage.getItem('account_type');
+  if (accountType === "writer") {
+    Swal.fire({
+      icon: "error",
+      title: "Comments add!",
+    });
+    return;
+  }
 
   const urlParams = new URLSearchParams(window.location.search);
   const bookId = urlParams.get('id');
@@ -232,13 +278,23 @@ async function add_comment(event) {
     const response = await axios.post(
       `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
     );
-    alert("Success");
+    Swal.fire({
+      icon: "success",
+      title: "Can't add comment.",
+      text: "Writers are not allowed to add comment.",
+    });
     console.log(response.data);
     show_comment();
   } catch (error) {
-      alert(error.response.data.detail);
+      Swal.fire({
+        icon: "error",
+        title: "Have something wrong.",
+        text: error.response.data.detail,
+      });
+      return;
   }
 }
+
 
 async function show_comment() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -298,9 +354,18 @@ async function add_complain(event) {
     const response = await axios.post(
       `http://127.0.0.1:8000/submit_complaint?user_id=${account_id}&message=${input}`
     );
-    alert("Success");
+    Swal.fire({
+      icon: "success",
+      title: "Complain add!",
+    });
+    return;;
   } catch (error) {
-      alert(error.response.data.detail);
+    Swal.fire({
+      icon: "error",
+      title: "Have something wrong.",
+      text: error.response.data.detail,
+    });
+    return;
   }
 }
 
@@ -337,6 +402,7 @@ async function writer_book_collection(queryParams) {
           `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
       );
 
+      heading.innerText = `${writer} Collection`
       const book_list = response.data["Book's list"];
       displayBookList(book_list);
   } else {
@@ -347,6 +413,7 @@ async function writer_book_collection(queryParams) {
               `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${accountName}`
           );
 
+          heading.innerText = 'My Collection'
           const book_list = response.data["Book's list"];
           displayBookList(book_list);
       } else {
