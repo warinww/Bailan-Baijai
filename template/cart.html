@@ -46,21 +46,17 @@
     <p id="totalCoins" class="text-center py-4">Total purchase coins: 0 coin Total rental coins: 0 coin</p>
     <div class="container mt-5">
         <div id="cartItems" class="row mt-4"></div>
-    
-        
-    
-        <div class="text-center py-4">
-            <button class="btn btn-outline-dark me-2" style="margin-right: 10px;" onclick="buy()">Buy</button>
-            <button class="btn btn-outline-dark me-2" onclick="rent()">Rent</button>
-        </div>
-        
+    </div>
+
+    <div class="text-center py-4">
+        <button class="btn btn-outline-dark me-2" style="margin-right: 10px;" onclick="buy()">Buy</button>
+        <button onclick="rent()" class="btn btn-outline-dark me-2">Rent</button>
     </div>
 
 
     <script>
         window.onload = function () {
             showCartItems();
-            console.log(selectedBooks)
         };
     </script>
 

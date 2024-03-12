@@ -1,5 +1,5 @@
 const account_id = localStorage.getItem('account_id');
-const Type = localStorage.getItem('account_type')
+const Type = localStorage.getItem('account_type');
 
 function changeHeading(text) {
   const heading = document.querySelector('h1.text-center.py-4');

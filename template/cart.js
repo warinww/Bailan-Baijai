@@ -10,7 +10,6 @@ async function showCartItems() {
 
         const cartItemsContainer = document.getElementById('cartItems');
         cartItemsContainer.innerHTML = '';
-        console.log(cartItems)
 
         if (cartItems === "Reader's cart is empty") {
             updateTotalCoins("Reader's cart is empty");
@@ -92,4 +91,27 @@ function toggleBookSelection(bookId) {
         selectedBooks.push(bookId);
     }
     updateTotalCoins();
+}
+
+async function rent() {
+    try {
+        const accountId = localStorage.getItem('account_id');
+        const response = await axios.post(`http://127.0.0.1:8000/rent?reader_id=${accountId}`, {
+            book_id: selectedBooks
+        });
+        console.log(response.data.rent);
+        Swal.fire({
+            icon: "success",
+            title: "Book in collection",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#" style="text-align: center;">Why do I have this issue?</a>'
+        }); 
+    }
 }
