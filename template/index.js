@@ -29,7 +29,6 @@ async function search_by_name(event) {
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
     
   );
-
   console.log(response.data);
 
   const heading = document.querySelector('h1.text-center.py-4');
